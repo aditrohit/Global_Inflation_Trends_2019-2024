@@ -1,0 +1,97 @@
+---
+title: "Inflation Rates"
+format: html
+editor: visual
+execute:
+    echo: false
+    message: false
+    warning: false
+---
+
+```{r}
+# Install needed packages if you don't have them
+
+options(repos = c(CRAN = "https://cran.rstudio.com"))
+
+
+
+
+library(wbstats)
+library(tidyverse)
+library(lubridate)
+
+# Define countries and indicator for inflation, consumer prices (annual %)
+countries <- c("US", "GB", "JP", "BR", "IN", "DE", "FR", "CN")  # USA, UK, Japan, Brazil, India, Germany, France, China
+indicator <- "FP.CPI.TOTL.ZG"  # Inflation, consumer prices (annual %)
+
+# Get data from World Bank for years 2019-2024
+inflation_raw <- wb_data(
+  country = countries,
+  indicator = indicator,
+  start_date = 2019,
+  end_date = 2024,
+  return_wide = FALSE
+)
+
+# Clean and rename columns
+inflation_clean <- inflation_raw %>%
+  select(iso3c, country, date, value) %>%
+  rename(
+    Year = date,
+    Inflation = value,
+    Country = country
+  ) %>%
+  filter(!is.na(Inflation))
+
+# Plot inflation trends
+ggplot(inflation_clean, aes(x = Year, y = Inflation, color = Country)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  scale_x_continuous(breaks = 2019:2024) +
+  labs(
+    title = "Annual Inflation Rate (Consumer Prices %) by Country",
+    subtitle = "2019 to 2024 (World Bank Data)",
+    x = "Year",
+    y = "Inflation Rate (%)",
+    color = "Country"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "bottom")
+
+```
+
+The line plot displays the annual inflation rates from 2019 through 2024 for several major economies, including the United States, United Kingdom, Japan, Brazil, India, Germany, France, and China. Each line represents the inflation trajectory of a single country over this six-year period.
+
+This visualization reveals how inflation rates were relatively stable or modestly fluctuating prior to the COVID-19 pandemic in 2019 and 2020. Beginning in 2021, most countries experienced a sharp increase in inflation, driven by factors such as supply chain disruptions, energy price shocks, and changing consumer demand. For example, Brazil and India show particularly steep rises in inflation during this period, peaking in 2022. The plot also highlights the slight easing in inflation projected for 2024, reflecting ongoing monetary policy efforts worldwide.
+
+By comparing these trends on the same graph, viewers can observe both common patterns across countries and country-specific differences in inflation dynamics, enabling a clearer understanding of the global economic landscape.
+```{r}
+library(wbstats)
+library(tidyverse)
+
+# Assuming inflation_clean is ready
+
+# Prepare data: convert Year to factor for discrete x-axis
+inflation_clean <- inflation_clean %>%
+  mutate(Year = factor(Year))
+
+# Plot heatmap
+ggplot(inflation_clean, aes(x = Year, y = Country, fill = Inflation)) +
+  geom_tile(color = "white") +
+  scale_fill_viridis_c(option = "C") +
+  labs(
+    title = "Heatmap of Annual Inflation Rates (2019–2024)",
+    x = "Year",
+    y = "Country",
+    fill = "Inflation (%)"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+The heatmap presents the same inflation data but arranged to emphasize intensity and timing. Each row corresponds to a country, and each column to a year from 2019 to 2024. The color shading reflects the inflation rate — darker or warmer colors indicate higher inflation.
+
+This format makes it easy to spot periods of high inflation and compare severity across countries and years at a glance. For example, the heatmap vividly highlights the inflation surge in 2022 across most countries, shown by the darkest shades. It also reveals that some countries, like Japan, experienced lower inflation throughout, while others, such as Brazil and India, faced more volatile and higher inflation.
+
+The heatmap is particularly useful for quickly identifying “hot spots” of inflation and understanding temporal patterns without needing to trace lines or interpret slopes, making it an excellent tool for summarizing complex economic data.
