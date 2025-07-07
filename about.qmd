@@ -6,5 +6,5 @@ My name is Adit Rohit and I am a rising freshman at Eastlake Highschool. Contact
 
 The repository for this project can be found at **https://github.com/aditrohit/US-Pollution**
 
-Graphs possible thorugh Kane's Data Science Bootcamp.
+Graphs possible thorugh David Kane's Data Science Bootcamp.
 
