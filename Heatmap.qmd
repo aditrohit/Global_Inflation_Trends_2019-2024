@@ -3,21 +3,34 @@ title: "Heatmap"
 format: html
 editor: visual
 execute:
-    echo: false
-    message: false
-    warning: false
+  echo: false
+  message: false
+  warning: false
 ---
 
 ```{r}
 library(wbstats)
 library(tidyverse)
 
-# Assuming inflation_clean is ready
+# Get inflation data from World Bank
+inflation_raw <- wb_data(
+  country = c("US", "GB", "JP", "BR", "IN", "DE", "FR", "CN"),
+  indicator = "FP.CPI.TOTL.ZG",
+  start_date = 2019,
+  end_date = 2024,
+  return_wide = FALSE
+)
 
-# Prepare data: convert Year to factor for discrete x-axis
-inflation_clean <- inflation_clean %>%
+# Clean and format data
+inflation_clean <- inflation_raw %>%
+  select(iso3c, country, date, value) %>%
+  rename(
+    Year = date,
+    Inflation = value,
+    Country = country
+  ) %>%
+  filter(!is.na(Inflation)) %>%
   mutate(Year = factor(Year))
-
 # Plot heatmap
 ggplot(inflation_clean, aes(x = Year, y = Country, fill = Inflation)) +
   geom_tile(color = "white") +
@@ -30,7 +43,6 @@ ggplot(inflation_clean, aes(x = Year, y = Country, fill = Inflation)) +
   ) +
   theme_minimal(base_size = 14) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
 ```
 
 The heatmap presents the same inflation data but arranged to emphasize intensity and timing. Each row corresponds to a country, and each column to a year from 2019 to 2024. The color shading reflects the inflation rate — darker or warmer colors indicate higher inflation.
