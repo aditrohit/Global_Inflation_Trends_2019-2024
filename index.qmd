@@ -97,3 +97,4 @@ The heatmap presents the same inflation data but arranged to emphasize intensity
 This format makes it easy to spot periods of high inflation and compare severity across countries and years at a glance. For example, the heatmap vividly highlights the inflation surge in 2022 across most countries, shown by the darkest shades. It also reveals that some countries, like Japan, experienced lower inflation throughout, while others, such as Brazil and India, faced more volatile and higher inflation.
 
 The heatmap is particularly useful for quickly identifying “hot spots” of inflation and understanding temporal patterns without needing to trace lines or interpret slopes, making it an excellent tool for summarizing complex economic data.
+

@@ -8,3 +8,4 @@ The inflation data used in these visualizations was sourced from the World Bankâ
 
 **Visualization Tools:**
 Graphs were created using R with the wbstats, tidyverse, and ggplot2 packages to provide clear and insightful representations of global inflation trends.
+
