@@ -2,5 +2,7 @@
 title: "About"
 ---
 
+My name is Adit Rohit and I am a rising freshman at Eastlake Highschool. COntact me at **rohitkadit@gmail.com**
+
 Graphs possible thorugh Kane's Data Science Bootcamp.
 
